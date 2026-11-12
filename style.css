@@ -473,3 +473,436 @@ footer p {
         font-size: 0.85rem;
     }
 }
+
+/* ==========================================================
+   QUIZ — chamada dentro das seções + janela do quiz
+   Duas paletas por contexto:
+   .quiz-claro  → tema 1 (claro, creme e terracota)
+   .quiz-escuro → tema 2 (escuro, tecnológico)
+   Todo o resto usa só essas variáveis.
+   ========================================================== */
+
+.quiz-claro {
+    --q-fundo: var(--creme);
+    --q-texto: var(--texto);
+    --q-titulo: var(--marrom);
+    --q-acento: #a8401a;
+    --q-acento-texto: var(--creme);
+    --q-acento-hover: var(--marrom);
+    --q-brilho: 0 0.6rem 1.3rem rgba(168, 64, 26, 0.3);
+    --q-card: #fffdf7;
+    --q-card-borda: rgba(74, 43, 26, 0.28);
+    --q-card-hover: var(--terracota);
+    --q-placar-1: #a8401a;
+    --q-placar-2: #d4621f;
+    --q-certa-fundo: #d7f0e1;
+    --q-certa-borda: #1f7a52;
+    --q-certa-texto: #0f3d29;
+    --q-errada-fundo: #fadbd6;
+    --q-errada-borda: #b3291f;
+    --q-errada-texto: #5a120c;
+}
+
+.quiz-escuro {
+    --q-fundo: var(--preto);
+    --q-texto: #eadcc3;
+    --q-titulo: var(--ouro);
+    --q-acento: var(--ouro);
+    --q-acento-texto: var(--preto);
+    --q-acento-hover: var(--laranja);
+    --q-brilho: 0 0 1.6rem rgba(242, 182, 50, 0.35);
+    --q-card: rgba(255, 255, 255, 0.06);
+    --q-card-borda: rgba(242, 182, 50, 0.35);
+    --q-card-hover: var(--ouro);
+    --q-placar-1: var(--ouro);
+    --q-placar-2: var(--laranja);
+    --q-certa-fundo: rgba(46, 170, 115, 0.28);
+    --q-certa-borda: #45d49a;
+    --q-certa-texto: #e6fff3;
+    --q-errada-fundo: rgba(230, 70, 55, 0.28);
+    --q-errada-borda: #ff7a6b;
+    --q-errada-texto: #ffe9e6;
+}
+
+/* ---------- Chamada: frase + botão "Iniciar quiz" ---------- */
+/* Sem cartão: frase e botão ficam soltos na página, separados do
+   texto só por uma linha fina, como os tópicos. */
+.quiz-chamada {
+    margin-top: 3.5rem;
+    padding: 3.5rem 0 0.5rem;
+    text-align: center;
+    border-top: 0.07rem solid var(--q-card-borda);
+}
+
+.quiz-chamada-texto {
+    max-width: 22ch;
+    margin: 0 auto 1.7rem;
+    font-family: var(--fonte-titulo);
+    font-weight: 700;
+    font-size: clamp(1.4rem, 5.6vw, 1.9rem);
+    line-height: 1.3;
+    color: var(--q-titulo);
+    text-wrap: balance;
+}
+
+/* ---------- Botões ---------- */
+.quiz-botao {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: min(100%, 21rem);
+    min-height: 3.6rem;
+    padding: 0.9rem 2rem;
+    font-family: var(--fonte-corpo);
+    font-size: 1.15rem;
+    font-weight: 600;
+    letter-spacing: 0.02em;
+    line-height: 1.2;
+    color: var(--q-acento-texto);
+    background: var(--q-acento);
+    border: 0.15rem solid var(--q-acento);
+    border-radius: 50vmax;
+    box-shadow: var(--q-brilho);
+    cursor: pointer;
+    transition: transform 0.2s ease, background 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+.quiz-botao:hover {
+    background: var(--q-acento-hover);
+    border-color: var(--q-acento-hover);
+    transform: translateY(-0.15rem);
+}
+
+.quiz-botao:active {
+    transform: scale(0.98);
+}
+
+.quiz-botao-secundario {
+    color: var(--q-titulo);
+    background: transparent;
+    box-shadow: none;
+}
+
+.quiz-botao-secundario:hover {
+    color: var(--q-acento-texto);
+}
+
+.quiz-chamada :focus-visible,
+.quiz-janela :focus-visible {
+    outline-color: var(--q-acento);
+}
+
+/* ---------- Janela do quiz (celular: tela inteira) ---------- */
+html.quiz-aberto {
+    overflow: hidden;
+}
+
+.quiz-janela {
+    --q-lateral: 6vw;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    width: 100%;
+    max-width: none;
+    height: 100vh;
+    height: 100dvh;
+    max-height: none;
+    overflow: hidden;
+    color: var(--q-texto);
+    background: var(--q-fundo);
+}
+
+.quiz-janela::backdrop {
+    background: rgba(20, 13, 9, 0.78);
+}
+
+.quiz-janela[open] {
+    display: flex;
+    flex-direction: column;
+    animation: quiz-entrar 0.35s ease both;
+}
+
+/* Tema 1: claro, com brilho dourado */
+.quiz-janela.quiz-claro {
+    background:
+        radial-gradient(circle at 100% 0%, rgba(242, 182, 50, 0.24), transparent 45%),
+        radial-gradient(circle at 0% 100%, rgba(196, 81, 31, 0.1), transparent 45%),
+        var(--creme);
+}
+
+/* Tema 2: escuro, com grade tecnológica */
+.quiz-janela.quiz-escuro {
+    background:
+        linear-gradient(rgba(242, 182, 50, 0.06) 0.07rem, transparent 0.07rem) 0 0 / 2.6rem 2.6rem,
+        linear-gradient(90deg, rgba(242, 182, 50, 0.06) 0.07rem, transparent 0.07rem) 0 0 / 2.6rem 2.6rem,
+        radial-gradient(circle at 0% 100%, rgba(31, 107, 74, 0.4), transparent 50%),
+        radial-gradient(circle at 100% 0%, rgba(196, 81, 31, 0.3), transparent 50%),
+        var(--preto);
+}
+
+.quiz-topo {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: max(0.5rem, env(safe-area-inset-top)) 1rem 0.5rem var(--q-lateral);
+}
+
+.quiz-selo {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    line-height: 1.4;
+    text-transform: uppercase;
+    color: var(--q-acento);
+}
+
+.quiz-fechar {
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    width: 3.2rem;
+    height: 3.2rem;
+    font: inherit;
+    font-size: 1.9rem;
+    line-height: 1;
+    color: var(--q-titulo);
+    background: transparent;
+    border: 0.12rem solid var(--q-card-borda);
+    border-radius: 50%;
+    cursor: pointer;
+    transition: background 0.3s ease, color 0.3s ease;
+}
+
+.quiz-fechar:hover {
+    color: var(--q-acento-texto);
+    background: var(--q-acento);
+}
+
+.quiz-progresso {
+    height: 0.45rem;
+    background: var(--q-card-borda);
+}
+
+.quiz-barra {
+    width: 0;
+    height: 100%;
+    border-radius: 0 0.25rem 0.25rem 0;
+    background: linear-gradient(90deg, var(--terracota), var(--ouro), var(--verde));
+    transition: width 0.45s ease;
+}
+
+.quiz-corpo {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    padding: 2rem var(--q-lateral) calc(2.5rem + env(safe-area-inset-bottom));
+    -webkit-overflow-scrolling: touch;
+}
+
+.quiz-conteudo {
+    width: min(100%, 40rem);
+    margin: auto;
+    animation: quiz-entrar 0.35s ease both;
+}
+
+/* ---------- Pergunta e alternativas ---------- */
+.quiz-contador {
+    margin-bottom: 1rem;
+    text-align: center;
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--q-acento);
+}
+
+.quiz-escuro .quiz-selo,
+.quiz-escuro .quiz-contador {
+    font-family: ui-monospace, "SF Mono", Consolas, "Liberation Mono", monospace;
+}
+
+.quiz-pergunta {
+    font-family: var(--fonte-titulo);
+    font-weight: 700;
+    font-size: clamp(1.45rem, 5.8vw, 2rem);
+    line-height: 1.3;
+    text-align: center;
+    color: var(--q-titulo);
+    text-wrap: balance;
+    overflow-wrap: break-word;
+}
+
+.quiz-pergunta:focus {
+    outline: none;
+}
+
+.quiz-opcoes {
+    display: grid;
+    gap: 0.9rem;
+    margin-top: 2rem;
+}
+
+.quiz-opcao {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.9rem;
+    width: 100%;
+    min-height: 3.6rem;
+    padding: 1rem 1.1rem;
+    font: inherit;
+    font-size: 1.05rem;
+    line-height: 1.5;
+    text-align: left;
+    color: var(--q-texto);
+    background: var(--q-card);
+    border: 0.15rem solid var(--q-card-borda);
+    border-radius: 0.9rem;
+    cursor: pointer;
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.3s ease, opacity 0.3s ease;
+}
+
+.quiz-opcao-letra {
+    flex: 0 0 2.1rem;
+    display: grid;
+    place-items: center;
+    height: 2.1rem;
+    margin-top: 0.05rem;
+    font-size: 0.95rem;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--q-acento);
+    border: 0.12rem solid currentColor;
+    border-radius: 50%;
+}
+
+@media (hover: hover) {
+    .quiz-opcao:not(.travada):hover {
+        border-color: var(--q-card-hover);
+        transform: translateY(-0.1rem);
+    }
+}
+
+.quiz-opcao.travada {
+    cursor: default;
+}
+
+.quiz-opcao.travada:not(.certa):not(.errada) {
+    opacity: 0.6;
+}
+
+.quiz-opcao.certa {
+    color: var(--q-certa-texto);
+    background: var(--q-certa-fundo);
+    border-color: var(--q-certa-borda);
+}
+
+.quiz-opcao.errada {
+    color: var(--q-errada-texto);
+    background: var(--q-errada-fundo);
+    border-color: var(--q-errada-borda);
+}
+
+.quiz-opcao.certa .quiz-opcao-letra {
+    color: var(--q-fundo);
+    background: var(--q-certa-borda);
+    border-color: var(--q-certa-borda);
+}
+
+.quiz-opcao.errada .quiz-opcao-letra {
+    color: var(--q-fundo);
+    background: var(--q-errada-borda);
+    border-color: var(--q-errada-borda);
+}
+
+.quiz-feedback {
+    min-height: 1.6rem;
+    margin-top: 1.5rem;
+    text-align: center;
+    font-size: 1.05rem;
+    font-weight: 600;
+    line-height: 1.5;
+}
+
+.quiz-feedback.ok {
+    color: var(--q-certa-borda);
+}
+
+.quiz-feedback.erro {
+    color: var(--q-errada-borda);
+}
+
+.quiz-acoes {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.9rem;
+    margin-top: 1.2rem;
+}
+
+/* Texto só para leitores de tela */
+.quiz-sr {
+    position: absolute;
+    width: 0.07rem;
+    height: 0.07rem;
+    overflow: hidden;
+    clip-path: inset(50%);
+    white-space: nowrap;
+}
+
+/* ---------- Resultado ---------- */
+.quiz-resultado {
+    text-align: center;
+}
+
+.quiz-placar {
+    margin: 0.3rem 0 1.2rem;
+    font-family: var(--fonte-titulo);
+    font-weight: 900;
+    font-size: clamp(4.6rem, 25vw, 7.5rem);
+    line-height: 1;
+    color: var(--q-placar-1);
+    background: linear-gradient(100deg, var(--q-placar-1), var(--q-placar-2));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.quiz-placar:focus {
+    outline: none;
+}
+
+.quiz-frase {
+    max-width: 30ch;
+    margin: 0 auto 1.8rem;
+    font-size: clamp(1.2rem, 4.8vw, 1.5rem);
+    line-height: 1.6;
+    color: var(--q-texto);
+    text-wrap: balance;
+}
+
+@keyframes quiz-entrar {
+    from {
+        opacity: 0;
+        transform: translateY(1.2rem);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* ---------- Tablet e desktop: a janela flutua no centro ---------- */
+@media (min-width: 37.5em) {
+    .quiz-janela {
+        --q-lateral: 2.5rem;
+        margin: auto;
+        width: min(92vw, 50rem);
+        height: min(90vh, 52rem);
+        height: min(90dvh, 52rem);
+        border-radius: 1.2rem;
+        box-shadow: 0 2rem 5rem rgba(0, 0, 0, 0.55);
+    }
+}

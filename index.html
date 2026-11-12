@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Consciência Negra</title>
-    <link rel="stylesheet" href="style.css?v=2">
+    <link rel="stylesheet" href="style.css?v=3">
+    <script src="script.js?v=1" defer></script>
 </head>
 <body>
 
@@ -35,6 +36,12 @@
         <div class="bloco-conteudo">
             <h3>Luta e Equidade Racial</h3>
             <p>A luta pela equidade racial busca garantir que todas as pessoas sejam respeitadas, representadas e tenham acesso igualitário à educação, ao trabalho, à saúde, à cultura e à justiça. Isso envolve reconhecer que pessoas negras foram e continuam sendo vítimas de diferentes formas de discriminação, inclusive em situações menos visíveis do cotidiano. Enfrentar o racismo exige aprender sobre sua história, questionar preconceitos, combater práticas discriminatórias e apoiar atitudes que promovam inclusão. Também é importante valorizar as conquistas, a memória e as contribuições do povo negro para a sociedade brasileira, criando espaços de diálogo em que todas as pessoas possam participar, ser ouvidas e ter chances reais de desenvolver seus projetos de vida.</p>
+
+            <!-- QUIZ DO TEMA 1 -->
+            <div class="quiz-chamada quiz-claro">
+                <div class="quiz-chamada-texto">Gostaria de testar seu conhecimento sobre o tema?</div>
+                <button type="button" class="quiz-botao" data-abrir-quiz="tema1">Iniciar quiz</button>
+            </div>
         </div>
     </section>
 
@@ -59,6 +66,12 @@
         <div class="bloco-conteudo">
             <h3>Exemplos Práticos e Soluções</h3>
             <p>Sistemas de inteligência artificial já foram usados por empresas para selecionar currículos a partir do histórico de contratações. Quando esses dados refletiam preferências passadas por contratar majoritariamente pessoas brancas, as ferramentas passaram a penalizar candidaturas de pessoas negras, ainda que elas fossem igualmente qualificadas. Também foram registrados casos em que sistemas de reconhecimento facial confundiram ou identificaram pessoas negras de maneira incorreta, resultando em abordagens, detenções ou investigações injustas. Para enfrentar esses problemas, são necessárias bases de dados diversas e representativas, auditorias periódicas por equipes multidisciplinares, testes de desempenho em diferentes grupos raciais, supervisão humana nas decisões, transparência sobre o uso dos sistemas e participação de especialistas e da sociedade civil na criação das regras. Além disso, a inteligência artificial só deve ser utilizada nessas áreas quando puder ser demonstrado que ela é segura, justa e submetida ao controle público. Este próprio site foi feito com auxílio de inteligências artificiais, mostrando que, quando utilizadas de forma responsável e consciente, elas podem ser uma ferramenta poderosa para combater o racismo.</p>
+
+            <!-- QUIZ DO TEMA 2 -->
+            <div class="quiz-chamada quiz-escuro">
+                <div class="quiz-chamada-texto">Gostaria de testar seu conhecimento sobre o assunto?</div>
+                <button type="button" class="quiz-botao" data-abrir-quiz="tema2">Iniciar quiz</button>
+            </div>
         </div>
     </section>
 
@@ -66,6 +79,18 @@
     <footer>
         <p>&copy; 2026 - Trabalho desenvolvido por Davi Costa dos Santos</p>
     </footer>
+
+    <!-- JANELA DO QUIZ (preenchida pelo script.js) -->
+    <dialog id="quiz-janela" class="quiz-janela" aria-labelledby="quiz-selo">
+        <div class="quiz-topo">
+            <span class="quiz-selo" id="quiz-selo"></span>
+            <button type="button" class="quiz-fechar" id="quiz-fechar" aria-label="Fechar quiz">&times;</button>
+        </div>
+        <div class="quiz-progresso" aria-hidden="true">
+            <div class="quiz-barra" id="quiz-barra"></div>
+        </div>
+        <div class="quiz-corpo" id="quiz-corpo"></div>
+    </dialog>
 
 </body>
 </html>
